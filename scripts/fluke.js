@@ -38,7 +38,7 @@ const downloadSuitableApi = (pageIsFluke) => {
 };
 
 const addElementsFromApi = () => {
-    let apiDownoand = downloadSuitableApi(pageIsFluke);
+    //let apiDownoand = downloadSuitableApi(pageIsFluke);
 
     //console.log(apiDownoand);
 
@@ -117,13 +117,16 @@ const removalAddedElementsToHtml = () => {
     instructions.remove();
 };
 
-addElementsFromApi();
+let apiDownoand = downloadSuitableApi(pageIsFluke);
+addElementsFromApi(apiDownoand);
 const buttonFluke = document.querySelector("#button-draw-recipe");
 
 buttonFluke.addEventListener("click", () => {
-    let apiDownoand = downloadSuitableApi(pageIsFluke);
+
+    apiDownoand = downloadSuitableApi(pageIsFluke);
+    console.log("click", apiDownoand);
     addElementsFromApi();
-    removalAddedElementsToHtml();
+    removalAddedElementsToHtml(apiDownoand);
 });
 
 const buttonGeneratePDF = document.querySelector("#button-generate-list");
