@@ -1,4 +1,6 @@
-const apiRandomMeal = "https://www.themealdb.com/api/json/v1/1/random.php";
+const jsPdf = window.jspdf;
+//const { jsPDF } = require('jspdf');
+const apiMeal = "https://www.themealdb.com/api/json/v1/1/";
 $("#carouselFade").carousel();
 
 const isFluke = function() {
@@ -22,7 +24,7 @@ const downloadSuitableApi = (pageIsFluke) => {
         buttonFluke.removeAttribute("style");
         const title = document.querySelector("title");
         title.innerText = "Fluke";
-        let apiDownoandSuitable = downloadApi(apiRandomMeal);
+        let apiDownoandSuitable = downloadApi(`${apiMeal}random.php`);
         console.log(apiDownoandSuitable);
         return apiDownoandSuitable;
     } else {
@@ -31,7 +33,7 @@ const downloadSuitableApi = (pageIsFluke) => {
         const hrefInPage = window.location.href;
         const idMeals = hrefInPage.slice(hrefInPage.indexOf("&") + 1);
         console.log(idMeals);
-        let apiDownoandSuitable = downloadApi(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeals}`);
+        let apiDownoandSuitable = downloadApi(`${apiMeal}lookup.php?i=${idMeals}`);
         return apiDownoandSuitable;
         /* TODO przycisk more na innych stronach !!! */
     }
@@ -61,8 +63,7 @@ const addElementsFromApi = () => {
             return { strMeal, strMealThumb, tabObiectIngredients, strInstructions };
         })
         .catch((e) => {
-            console.dir(`
-    error in unpacking api: ${e}`);
+            console.dir(`error in unpacking api: ${e}`);
         });
 
     addInHTMl
@@ -129,8 +130,102 @@ buttonFluke.addEventListener("click", () => {
     removalAddedElementsToHtml(apiDownoand);
 });
 
-const buttonGeneratePDF = document.querySelector("#button-generate-list");
+const generateListIngredientsPdf = (doc, margin, recipe) => {
+    const liElements = document.querySelectorAll('.li-ingredient');
+    let i = 60;
+    lengthLiElements = liElements.length
+    for (let j = 0; j < lengthLiElements; j++) {
+        const liElementText = liElements[j].innerText;
+        console.log(recipe, j);
+        if (recipe && j == 13) {
+            i = 120;
+        } else if (recipe && j > 13) {
+            console.log(liElementText);
+            doc.text(20, i, `[   ]  ${liElementText}`);
+        } else {
+            console.log(liElementText);
+            doc.text(margin, i, `[   ]  ${liElementText}`);
+            console.log(i);
+        }
+        i += 10;
+    }
+}
 
-buttonGeneratePDF.addEventListener('click', () => {
-    const doc = new jsPDF(); // Not work
+const generateInstructions = (doc, instructions) => {
+    const instructionsS = instructions.split('<br>');
+    const instructionsSAdd = instructionsS.join(" ");
+    lengthArrayInstructions = instructionsSAdd.length;
+    let start = 0;
+    let multiple = 80;
+    j = 210;
+
+    for (let i = 0; i < lengthArrayInstructions; i++) {
+        if (i === multiple) {
+            const arrayWithString = instructionsSAdd.substring(start, i);
+            console.log("arr", arrayWithString);
+            doc.text(20, j, `${arrayWithString}`);
+            start = i;
+            multiple += 80;
+            j += 10;
+        }
+        if (j === 260) {
+            doc.addPage();
+            j = 20;
+        }
+    }
+    const arrayWithString = instructionsSAdd.substring(start);
+    doc.text(20, j, `${arrayWithString}`);
+}
+
+const generateShoppingListPdf = () => {
+    const doc = jsPdf.jsPDF();
+    //const doc = new jsPDF();
+    const margin = 30;
+    const hTitleDish = document.querySelector("#title-dish").innerText;
+    doc.getFontList("Lobster");
+    doc.text(90, 20, "Shopping list");
+    doc.line(20, 30, 190, 30)
+    doc.text(50, 45, `${hTitleDish}`);
+    doc.getFontList("Segoe UI");
+    doc.setFontSize(13);
+    generateListIngredientsPdf(doc, margin);
+    doc.save("shoppingList.pdf");
+}
+
+const generateRecipePdf = () => {
+    recipe = true;
+    const doc = jsPdf.jsPDF();
+    //const doc = new jsPDF();
+    const hTitleDish = document.querySelector("#title-dish").innerHTML;
+    const imgDish = document.querySelector("#img-dish");
+    const instructions = document.querySelector(".instructions").innerHTML;
+    const margin = 120;
+
+    doc.getFontList("Lobster");
+    doc.text(90, 20, `${hTitleDish}`);
+    doc.line(20, 30, 190, 30)
+    doc.text(margin, 45, "Ingredients");
+    doc.text(90, 200, "Instructions");
+    doc.getFontList("Segoe UI");
+    doc.setFontSize(13);
+    doc.addImage(imgDish, 'JPEG', 20, 45, 80, 60);
+    generateListIngredientsPdf(doc, margin, recipe);
+
+    generateInstructions(doc, instructions);
+    //console.log(instructions.split(''));
+
+    const title = hTitleDish.replace(' ', '_')
+    doc.save(`Recip_${title}.pdf`);
+}
+
+const buttonGenerateListPDF = document.querySelector("#button-generate-list");
+
+buttonGenerateListPDF.addEventListener('click', () => {
+    generateShoppingListPdf();
+});
+
+const buttonGenerateRecipePDF = document.querySelector("#button-generate-recipe");
+
+buttonGenerateRecipePDF.addEventListener('click', () => {
+    generateRecipePdf();
 })
