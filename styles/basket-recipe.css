@@ -1,0 +1,273 @@
+:root {
+    --main-color: #2aa1b7;
+    --background-color: #fff9eb;
+    --buttons-color: #ffd471;
+    --light-texts-color: #d8d7d8;
+    --dark-texts-color: #707070;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: "Segoe UI", sans-serif;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.main {
+    margin-top: 100px;
+    padding: 0;
+}
+
+.bannerFluke {
+    width: 100%;
+    height: 28vh;
+    min-height: 170px;
+}
+
+.carousel-fade .carousel-inner .item {
+    opacity: 0;
+    transition-property: opacity;
+}
+
+.carousel-fade .carousel-inner .active {
+    opacity: 1;
+}
+
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+}
+
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+    opacity: 1;
+}
+
+.carousel-fade .carousel-control {
+    z-index: 2;
+}
+
+@media all and (transform-3d),
+(-webkit-transform-3d) {
+    .carousel-fade .carousel-inner>.item.next,
+    .carousel-fade .carousel-inner>.item.active.right {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+    .carousel-fade .carousel-inner>.item.prev,
+    .carousel-fade .carousel-inner>.item.active.left {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+    .carousel-fade .carousel-inner>.item.next.left,
+    .carousel-fade .carousel-inner>.item.prev.right,
+    .carousel-fade .carousel-inner>.item.active {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.carousel-caption {
+    margin: 0;
+    padding: 0 0 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel-caption .bannerQuote {
+    font-size: 30px;
+    color: var(--light-texts-color);
+}
+
+.carousel-caption .bannerSpan {
+    font-size: 15px;
+    color: var(--light-texts-color);
+}
+
+html,
+body,
+.carousel,
+.carousel-inner,
+.carousel-inner .item {
+    height: 100%;
+}
+
+.item {
+    background: url("../img/flukeBanner.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.top-menu-title {
+    font-family: "Lobster";
+    font-size: 2.6em;
+    color: var(--main-color);
+    text-align: center;
+    display: inline;
+}
+
+.div-button-top-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.button {
+    margin-top: 5px;
+    margin-right: 10px;
+    font-weight: normal;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 7px 40px;
+    border-radius: 15px;
+    border: none;
+    background-color: #2aa1b7;
+    color: #d8d7db;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    outline: none;
+    cursor: pointer;
+}
+
+td {
+    cursor: pointer;
+    color: var(--dark-texts-color);
+}
+
+.tr-th1 {
+    height: 50px;
+}
+
+.tab-list-recipe {
+    margin: 5vh 8vw 5vh 8vw;
+    padding-bottom: 1vh;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
+    border-radius: 15px;
+    /*background: rgba(255, 212, 113, .5);*/
+}
+
+#table--1 {
+    margin-left: 2vh;
+    margin-bottom: 5vh;
+    width: 95%;
+}
+
+#table--1 tr {
+    border-bottom: solid 1px var(--buttons-color);
+    text-align: left;
+}
+
+#table--1 tbody tr:hover {
+    background: rgba(255, 212, 113, .8);
+}
+
+.container-top-menu-title,
+.button-select-basket,
+.button-continue-adding-recipes {
+    margin: 15px 50px 15px 50px;
+}
+
+.h4-title-Recipe {
+    font-size: 18px;
+}
+
+.div-checkbox {
+    margin: 10px;
+}
+
+.label-checkbox {
+    display: block;
+    position: relative;
+    margin: auto;
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 24px;
+    height: 20px;
+    width: 20px;
+    clear: both;
+}
+
+input[type=checkbox] {
+    margin: 0;
+}
+
+.label-checkbox input {
+    position: absolute;
+    opacity: 0;
+}
+
+.label-checkbox .span-checkbox {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 20px;
+    width: 20px;
+    background-color: transparent;
+    border-radius: 5px;
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    border: 2px solid var(--main-color);
+}
+
+.label-checkbox input:checked~.span-checkbox {
+    background-color: var(--main-color);
+    border-radius: 5px;
+    -webkit-transform: rotate(0deg) scale(1);
+    -ms-transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+    border: 2px solid var(--main-color);
+}
+
+.label-checkbox .span-checkbox::after {
+    position: absolute;
+    content: "";
+    left: 10px;
+    top: 10px;
+    height: 0px;
+    width: 0px;
+    border-radius: 5px;
+    border: solid var(--buttons-color);
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(0deg) scale(0);
+    -ms-transform: rotate(0deg) scale(0);
+    transform: rotate(0deg) scale(0);
+    opacity: 1;
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+}
+
+.label-checkbox input:checked~.span-checkbox::after {
+    -webkit-transform: rotate(45deg) scale(1);
+    -ms-transform: rotate(45deg) scale(1);
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+    left: 6px;
+    top: 1px;
+    width: 6px;
+    height: 12px;
+    border: solid var(--buttons-color);
+    border-width: 0 2px 2px 0;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+.bottom-menu-basket {
+    padding: 15px;
+    display: flex;
+    justify-content: flex-end;
+}

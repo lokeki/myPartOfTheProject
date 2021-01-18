@@ -2,6 +2,9 @@ const jsPdf = window.jspdf;
 //const { jsPDF } = require('jspdf');
 const apiMeal = "https://www.themealdb.com/api/json/v1/1/";
 $("#carouselFade").carousel();
+let idMealPage = '';
+
+let apiDownoand;
 
 const isFluke = function() {
     let pageIsFluke;
@@ -35,19 +38,18 @@ const downloadSuitableApi = (pageIsFluke) => {
         console.log(idMeals);
         let apiDownoandSuitable = downloadApi(`${apiMeal}lookup.php?i=${idMeals}`);
         return apiDownoandSuitable;
-        /* TODO przycisk more na innych stronach !!! */
     }
 };
 
 const addElementsFromApi = () => {
     //let apiDownoand = downloadSuitableApi(pageIsFluke);
 
-    //console.log(apiDownoand);
+    console.log(apiDownoand);
 
     const addInHTMl = apiDownoand
         .then((resp) => {
             //console.log(resp);
-            const { strMeal, strMealThumb, strInstructions } = resp;
+            const { idMeal, strMeal, strMealThumb, strInstructions } = resp;
             const tabObiectIngredients = [];
             let i = 1;
             //console.log(resp[`strIngredient${i}`] !== "" && resp[`strIngredient${i}`] != null);
@@ -60,6 +62,8 @@ const addElementsFromApi = () => {
             }
             //console.log(tabObiectIngredients);
             //console.log(strMeal, strMealThumb,tabObiectIngredients);
+            idMealPage = ''
+            idMealPage += idMeal;
             return { strMeal, strMealThumb, tabObiectIngredients, strInstructions };
         })
         .catch((e) => {
@@ -118,8 +122,9 @@ const removalAddedElementsToHtml = () => {
     instructions.remove();
 };
 
-let apiDownoand = downloadSuitableApi(pageIsFluke);
+apiDownoand = downloadSuitableApi(pageIsFluke);
 addElementsFromApi(apiDownoand);
+
 const buttonFluke = document.querySelector("#button-draw-recipe");
 
 buttonFluke.addEventListener("click", () => {
@@ -184,9 +189,9 @@ const generateShoppingListPdf = () => {
     const hTitleDish = document.querySelector("#title-dish").innerText;
     doc.getFontList("Lobster");
     doc.text(90, 20, "Shopping list");
-    doc.line(20, 30, 190, 30)
-    doc.text(50, 45, `${hTitleDish}`);
-    doc.getFontList("Segoe UI");
+    doc.line(30, 30, 190, 30)
+    doc.text(20, 45, `${hTitleDish}`);
+    doc.getFontList("Arial");
     doc.setFontSize(13);
     generateListIngredientsPdf(doc, margin);
     doc.save("shoppingList.pdf");
@@ -202,11 +207,11 @@ const generateRecipePdf = () => {
     const margin = 120;
 
     doc.getFontList("Lobster");
-    doc.text(90, 20, `${hTitleDish}`);
+    doc.text(70, 20, `${hTitleDish}`);
     doc.line(20, 30, 190, 30)
     doc.text(margin, 45, "Ingredients");
     doc.text(90, 200, "Instructions");
-    doc.getFontList("Segoe UI");
+    doc.getFontList("Arial");
     doc.setFontSize(13);
     doc.addImage(imgDish, 'JPEG', 20, 45, 80, 60);
     generateListIngredientsPdf(doc, margin, recipe);
@@ -228,4 +233,58 @@ const buttonGenerateRecipePDF = document.querySelector("#button-generate-recipe"
 
 buttonGenerateRecipePDF.addEventListener('click', () => {
     generateRecipePdf();
+});
+
+const getData = (key) => {
+    if (!localStorage) return;
+
+    try {
+        return JSON.parse(localStorage.getItem(key));
+    } catch (err) {
+        console.error(`error getting item ${key} to localStorage`, err);
+    }
+}
+
+const storeData = (key, item) => {
+    if (!localStorage) return;
+
+    try {
+        return localStorage.setItem(key, JSON.stringify(item));
+    } catch (err) {
+        console.error(`error storing item ${key} to localStorage`, err);
+    }
+}
+
+const iconAddRecipe = document.querySelector('#icon-add-recipe');
+
+
+const addRecipeToLocalStorage = () => {
+
+    const hTitleDish = document.querySelector("#title-dish").innerHTML;
+    const key = "Recipe";
+
+    const state = {
+        idMeals: idMealPage,
+        title: hTitleDish
+    }
+
+    let tabWithIdMealLocalStoage = [];
+    const dataLocalS = getData(key);
+    if (dataLocalS === null) {
+        //console.log(state);
+        tabWithIdMealLocalStoage.push(state);
+        storeData(key, tabWithIdMealLocalStoage);
+        tabWithIdMealLocalStoage = [];
+    } else {
+        //console.log(state);
+        let listRecipe = tabWithIdMealLocalStoage.concat(dataLocalS);
+        listRecipe.push(state);
+        console.log(2, listRecipe);
+        storeData(key, listRecipe);
+    }
+}
+
+iconAddRecipe.addEventListener('click', () => {
+
+    addRecipeToLocalStorage();
 })

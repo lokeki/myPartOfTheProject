@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fluke</title>
+    <title>Basket</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../styles/base.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/fluke.css" />
+    <link rel="stylesheet" href="../styles/basket-recipe.css" />
 
 
 </head>
@@ -50,7 +50,6 @@
             <div class="div-loader"></div>
             <div class="bannerFluke">
                 <div id="carouselFade" class="carousel slide carousel-fade" data-ride="carousel">
-                    <!-- Wrapper for slides TODO rozne teksty w zaleeznosci od fluke czy nie-->
                     <div class="carousel-inner" role="listbox">
                         <div class="item active">
                             <div class="carousel-caption">
@@ -87,53 +86,35 @@
                </a>
             </div>
          </div>
-         <section class="container-recipe">
-            <div class="content-title">
-               <h3 id="title-dish"></h3>
+         <section class="container-basket">
+           
+            <div class="tab-list-recipe">
+                <table id="table--1">
+                    <thead>
+                        <tr class="tr-th1">
+                             <th class="top-menu" colspan="2">
+                                <div class="container-top-menu-title">
+                                <h3 class="top-menu-title">Recipe title</h3>
+                                </th>
+                            
+                            <th class="top-menu div-button-top-menu">
+                                <button class="button button-select-basket">Select all</button>
+                                <button class="button button-continue-adding-recipes">Continue adding recipes</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--dodawane za pomoca js !!-->
+                        
+                    </tbody>
+                </table>
+                <div class="bottom-menu-basket">
+                <button class="button" id="remove-all">Remove all</button>
+                <button class="button" id="generate-shopping-list-basket">Generate shopping list</button>
             </div>
-            <div class="content-dish">
-               <div class="content-img">
-                  <img id="img-dish" src="" />
-               </div>
+            </div>
+            
 
-               <div class="content-list-ingredients">
-                  <div>
-                     <h3>Ingredients</h3>
-                     <div class="list-ingredients-columns">
-                        <ul id="list-ingredients"></ul>
-                        <ul id="list-ingredients-col2"></ul>
-                     </div>
-                  </div>
-                  <div class="contener-button">
-                     <div class="content-generate-list">
-                        <button class="button" id="button-generate-recipe">
-                        Generate a recipe</button>
-                     </div>
-                     <div class="content-generate-list">
-                        <button class="button" id="button-generate-list">
-                        Generate a shopping list</button>
-                     </div>
-                  </div>
-               </div>
-               <div class="content-add-icon">
-                  <button id="icon-add-recipe" title="Add the recipe to the basket"></button> <!-- TODO logika :D -->
-               </div>
-            </div>
-            <div class="content-description">
-               <h3 class="instructions-title">Instructions</h3>
-            </div>
-            <div class="content-draw-recipe">
-               <button class="button" id="button-draw-recipe" style="visibility: hidden;">
-                  I'm feeling lucky</button>
-            </div>
-
-            <!-- h2 tytuł przepisu -->
-            <!-- img -->
-            <!-- button/icon add to list with recipes-->
-            <!-- contents list? -->
-            <!-- button generuj liste -->
-            <!-- description -->
-            <!-- button losuj // fluke-->
 
          </section>
       </main>
@@ -169,13 +150,12 @@
       </footer>
    </div>
 
-   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js"></script>
    
-   <script type="text/javaScript" src="../scripts/fluke.js"></script>
+   <script type="text/javaScript" src="../scripts/basket-recipe.js"></script>
 </body>
 
 </html>
